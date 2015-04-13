@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
             printf("==================\n");
             len = strlen(sb.name);
             printf("Name: [%s], ", sb.name);
-            printf("Size: [%llu], ", sb.size);
+            printf("Size: [%u], ", (unsigned int) sb.size);
             printf("mtime: [%u]\n", (unsigned int)sb.mtime);
             if (sb.name[len - 1] == '/') {
                 safe_create_dir(sb.name);
