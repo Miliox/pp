@@ -6,6 +6,9 @@
 all:
 	gcc libzip_simple.c -lzip -o libzip_simple -I /usr/local/lib/libzip/include/
 
+clean:
+	rm libzip_simple
+
 
 # vim:ft=make
 #
