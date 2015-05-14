@@ -12,7 +12,7 @@ __exercício 11__: Programmer as the Flaky Computer Corporation designed the
 protocol show in Fig. 2.15 to achieve n-thread mutual exclusion. For each
 question, either sketch a proof, or display an execution where it fails.
 
-[source java]
+[source,java]
 -----------------------------------------------------
 class Flaky implements Lock {
   private int turn;
@@ -219,7 +219,7 @@ class provides mutual exclusion and is starvation-free, so does the FastPath
 lock, but it can be acquired in a constant number of steps in the absance of
 contention. Sketch an argument why they are right, or give a counterexample.
 
-[source java]
+[source,java]
 -----------------------------------------------------
 class FastPath implements Lock {
   private static ThreadLocal<Integer> myIndex;
@@ -291,7 +291,7 @@ acesso é constante quando sem contenção.
 __exercício 16__: Suppose n threads call visit() method of the Bouncer class shown in
 Fig. 2.17. Prove that--
 
-[source java]
+[source,java]
 -----------------------------------------------------
 class Bouncer {
   public static int DOWN  = 0;

@@ -131,28 +131,29 @@ which a thread reuses its own node instead of its predecessor node. Explain how
 this implementation can go wrong.
 
 .Figure 7.33 An incorrect attempt to implement a CLHLock.
+[source,java,linenums]
 --------------------
-1  public class BadCLHLock implements Lock {
-2    // most recent lock holder
-3    AtomicReference<Qnode> tail = new Qnode();
-4    // thread-local variable
-5    ThreadLocal<Qnode> myNode;
-6    public void lock() {
-7      Qnode qnode = myNode.get();
-8      qnode.locked = true;
-9      // Make me the new tail, and find my predecessor
-10     Qnode pred = tail.getAndSet(qnode);
-11     // spin while predecessor holds lock
-12     while (pred.locked()) {}
-13   }
-14   public void unlock() {
-15     // reuse my node next time
-16     myNode.get().locked = false;
-17   }
-18   static class Qnode {
-19     public boolean locked = false;
-20   }
-21 }
+public class BadCLHLock implements Lock {
+  // most recent lock holder
+  AtomicReference<Qnode> tail = new Qnode();
+  // thread-local variable
+  ThreadLocal<Qnode> myNode;
+  public void lock() {
+    Qnode qnode = myNode.get();
+    qnode.locked = true;
+    // Make me the new tail, and find my predecessor
+    Qnode pred = tail.getAndSet(qnode);
+    // spin while predecessor holds lock
+    while (pred.locked()) {}
+  }
+  public void unlock() {
+    // reuse my node next time
+    myNode.get().locked = false;
+  }
+  static class Qnode {
+    public boolean locked = false;
+  }
+}
 --------------------
 
 There's a risk of deadlock when reusing the same Qnode.
@@ -231,6 +232,7 @@ does not acquire the lock). Give implementation for
 
 * Any +testAndSet()+ spin lock
 
+[source,java]
 ------------------------------------------------------------------------
 public class TASLock implements java.util.concurrent.locks.Lock {
     private AtomicBoolean state = new AtomicBoolean(false);
@@ -244,6 +246,7 @@ public class TASLock implements java.util.concurrent.locks.Lock {
 
 * The CLH queue lock, and
 
+[source,java]
 ------------------------------------------------------------------------
 public CLHLock implements java.util.concurrent.locks.Lock {
     private AtomicReference<QNode> tail = new AtomicReference<QNode>(null);
@@ -258,6 +261,7 @@ public CLHLock implements java.util.concurrent.locks.Lock {
 
 * The MCS queue lock
 
+[source,java]
 ------------------------------------------------------------------------
 public MCSLock implements java.util.concurrent.locks.Lock {
     private AtomicReference<QNode> tail = new AtomicReference<QNode>(null);
